@@ -11,6 +11,7 @@ import com.golden.gamedev.GameEngine;
 import com.golden.gamedev.GameObject;
 import com.golden.gamedev.OpenGLGameLoader;
 import com.golden.gamedev.engine.BaseIO;
+import com.golden.gamedev.engine.audio.JavaLayerMp3Renderer;
 
 import fr.openig.graphics.OpenIgBaseLoader;
 import fr.openig.views.StarMapView;
@@ -27,6 +28,17 @@ public class OpenIg extends GameEngine {
 		OpenIgBaseLoader.getInstance(new BaseIO(OpenIg.class, BaseIO.CLASS_LOADER), Color.BLACK);
 	}
 	
+	
+	
+	@Override
+	protected void initEngine() {
+		super.initEngine();
+
+		bsMusic.setBaseRenderer(new JavaLayerMp3Renderer());
+	}
+
+
+
 	@Override
 	public GameObject getGame(int gameId) {
 		 switch (gameId) {
