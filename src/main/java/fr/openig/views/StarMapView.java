@@ -74,6 +74,10 @@ public class StarMapView extends OpenIgGameObject {
 		        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnop" +
 		        "qrstuvwxyz?![]'\"+-:;.,1234567890%& /ß ÄÖÜä" +
 		 		"öüßêéèàEÃçÇôûùòìàóñÑµ¿úííóõôôüüÜ#@*<>_$");
+		
+		// Musique de fond
+		bsMusic.play("music/MS_Ambient 01.mp2");
+		bsMusic.setLoop(false);
 	}
 	
 	@Override
@@ -156,6 +160,9 @@ public class StarMapView extends OpenIgGameObject {
 		
 		// Gestion de la carte
 		playfield.getBackground().setLocation(playfield.getBackground().getX() + starMapMove.getX(), playfield.getBackground().getY() + starMapMove.getY());
+		
+		// Gestion de la musique
+		System.out.println(bsMusic.);
 	}
 
 }

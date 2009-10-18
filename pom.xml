@@ -50,6 +50,13 @@
 			<version>0.2.3</version>
 		</dependency>
 		
+		<!-- Player audio -->
+		<dependency>
+			<groupId>javazoom</groupId>
+			<artifactId>jlayer</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		
 	</dependencies>
 	
 	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
