@@ -8,17 +8,30 @@ import java.awt.image.BufferedImage;
 import com.golden.gamedev.GameEngine;
 import com.golden.gamedev.GameObject;
 import com.golden.gamedev.object.AnimatedSprite;
+import com.golden.gamedev.object.GameFont;
 import com.golden.gamedev.object.Sprite;
+import com.golden.gamedev.util.ImageUtil;
 
 public abstract class OpenIgGameObject extends GameObject {
 
+	// Mode debug ou non
 	private boolean debugMode = false;
+	
+	// Font
+	protected GameFont font10;
 	
 	public OpenIgGameObject(GameEngine parent) {
 		super(parent);
 		
 		if(!parent.isDistribute())
 			debugMode = true;
+		
+		// Chargement de la font
+		BufferedImage fontImage = super.getImage("graphics/sprites/generics/font/charset.png");
+		font10 = fontManager.getFont(ImageUtil.splitImages(fontImage.getSubimage(0, 24, 252, 32), 42, 4),
+		        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnop" +
+		        "qrstuvwxyz?![]'\"+-:;.,1234567890%& /ß ÄÖÜä" +
+		 		"öüßêéèàEÃçÇôûùòìàóñÑµ¿úííóõôôüüÜ#@*<>_$");
 	}
 	
 	@Override
