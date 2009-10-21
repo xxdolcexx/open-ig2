@@ -1,6 +1,5 @@
 package fr.openig;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.util.Properties;
@@ -10,10 +9,8 @@ import org.apache.log4j.Logger;
 import com.golden.gamedev.GameEngine;
 import com.golden.gamedev.GameObject;
 import com.golden.gamedev.OpenGLGameLoader;
-import com.golden.gamedev.engine.BaseIO;
 import com.golden.gamedev.engine.audio.JavaLayerMp3Renderer;
 
-import fr.openig.graphics.OpenIgBaseLoader;
 import fr.openig.views.StarMapView;
 
 public class OpenIg extends GameEngine {
@@ -24,20 +21,12 @@ public class OpenIg extends GameEngine {
 	/** Id des différents screens */
 	private static final int STARMAP = 0;
 	
-	public OpenIg() {
-		OpenIgBaseLoader.getInstance(new BaseIO(OpenIg.class, BaseIO.CLASS_LOADER), Color.BLACK);
-	}
-	
-	
-	
 	@Override
 	protected void initEngine() {
 		super.initEngine();
 
 		bsMusic.setBaseRenderer(new JavaLayerMp3Renderer());
 	}
-
-
 
 	@Override
 	public GameObject getGame(int gameId) {

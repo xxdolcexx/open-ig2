@@ -39,11 +39,11 @@
 		</dependency>
 		
 		<!-- Moteur 2D -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.golden.gamedev</groupId>
 			<artifactId>gtge</artifactId>
 			<version>0.2.3</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.golden.gamedev</groupId>
 			<artifactId>gtge-addon</artifactId>

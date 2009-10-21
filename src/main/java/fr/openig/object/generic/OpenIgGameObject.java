@@ -10,8 +10,6 @@ import com.golden.gamedev.GameObject;
 import com.golden.gamedev.object.AnimatedSprite;
 import com.golden.gamedev.object.Sprite;
 
-import fr.openig.graphics.OpenIgBaseLoader;
-
 public abstract class OpenIgGameObject extends GameObject {
 
 	private boolean debugMode = false;
@@ -31,10 +29,6 @@ public abstract class OpenIgGameObject extends GameObject {
 
 	@Override
 	public abstract void update(long elapsedTime);
-	
-	public BufferedImage getImage(String image) {
-		return OpenIgBaseLoader.getInstance().getStoredImage(image);
-	}
 	
 	public BufferedImage getImageWithTransparency(String image, int transparency, int transparencyLevel){
 		BufferedImage img = getImage(image);
@@ -56,10 +50,6 @@ public abstract class OpenIgGameObject extends GameObject {
 	     }
 	     
 	     return img;
-	}
-	
-	public BufferedImage[] getImages(String image) {
-		return OpenIgBaseLoader.getInstance().getStoredImages(image);
 	}
 	
 	public Sprite getSprite(BufferedImage image, int x, int y) {
