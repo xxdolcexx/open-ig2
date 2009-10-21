@@ -8,23 +8,19 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 import org.apache.log4j.Logger;
 
 import com.golden.gamedev.GameEngine;
 import com.golden.gamedev.object.AnimatedSprite;
 import com.golden.gamedev.object.Background;
-import com.golden.gamedev.object.GameFont;
 import com.golden.gamedev.object.PlayField;
 import com.golden.gamedev.object.SpriteGroup;
-import com.golden.gamedev.object.font.BitmapFont;
 import com.golden.gamedev.util.ImageUtil;
 
 import fr.openig.object.Planet;
 import fr.openig.object.background.SpacemapBackground;
+import fr.openig.object.generic.ControlBarGameObject;
 import fr.openig.object.generic.OpenIgGameObject;
 
 public class StarMapView extends OpenIgGameObject {
@@ -35,24 +31,18 @@ public class StarMapView extends OpenIgGameObject {
 	// Conteneur
 	private PlayField playfield;
 	
-	// Font en taille 10
-	private GameFont font10;
-
-	// Argent
-	private long money;
-	
-	// Date
-	private Calendar calendar = new GregorianCalendar();
+	// Barre de contrôle principale
+	private ControlBarGameObject controlBar;
 
 	public StarMapView(GameEngine parent) {
 		super(parent);
+		
+		// Barre de contrôle principale
+		controlBar = new ControlBarGameObject(parent);
 	}
 
 	@Override
 	public void initResources() {
-		// Variable du jeu
-		money = 0;
-		calendar.setTime(new Date());
 		setMaskColor(Color.BLACK);
 		
 		// Affichage du background
@@ -69,13 +59,6 @@ public class StarMapView extends OpenIgGameObject {
 		BufferedImage miniMapImage = getImage("graphics/sprites/starmap/mini-map.png");
 		miniMap.add(new Sprite(miniMapImage, (getWidth() / 2) - (miniMapImage.getWidth() / 2), 
 				getHeight() - miniMapImage.getHeight() - 2));*/
-		
-		// Chargement de la font
-		BufferedImage fontImage = super.getImage("graphics/sprites/generics/font/charset.png");
-		font10 = fontManager.getFont(ImageUtil.splitImages(fontImage.getSubimage(0, 24, 252, 32), 42, 4),
-		        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnop" +
-		        "qrstuvwxyz?![]'\"+-:;.,1234567890%& /ß ÄÖÜä" +
-		 		"öüßêéèàEÃçÇôûùòìàóñÑµ¿úííóõôôüüÜ#@*<>_$");
 		
 		// Vaisseaux
 		SpriteGroup spaceShips = playfield.addGroup(new SpriteGroup("spacehips"));
@@ -124,16 +107,7 @@ public class StarMapView extends OpenIgGameObject {
 			}
 		}
 		
-		// Affichage de la barre principale
-		getSprite(getImage("graphics/sprites/starmap/main-bar.png", false).getSubimage(77, 20, 79, 18), 0, 0).render(g2d);
-		getSprite(getImage("graphics/sprites/starmap/main-bar.png", false).getSubimage(1, 1, 524, 18), 74, 0).render(g2d);
-		getSprite(getImage("graphics/sprites/starmap/main-bar.png", false).getSubimage(0, 40, 42, 18), 600, 0).render(g2d);
-		
-		// Affichage de l'argent
-		font10.drawString(g2d, "$" + money, 94, 6);
-		
-		// Affichage de la date
-		font10.drawString(g2d, calendar.get(Calendar.DAY_OF_MONTH) + " / " + calendar.get(Calendar.MONTH) + " / " + calendar.get(Calendar.YEAR), BitmapFont.CENTER, 170, 6, 90);
+		controlBar.render(g2d);
 		
 		// Affichage mode debug
 		if(isDebugMode()) {
@@ -189,12 +163,7 @@ public class StarMapView extends OpenIgGameObject {
 			}
 		}
 		
-		
-		// Gestion de l'argent
-		money++;
-		
-		// Gestion de la date
-		calendar.add(Calendar.MINUTE, (int)elapsedTime);
+		controlBar.update(elapsedTime);
 		
 		// Gestion de la carte
 		playfield.getBackground().setLocation(playfield.getBackground().getX() + starMapMove.getX(), playfield.getBackground().getY() + starMapMove.getY());
