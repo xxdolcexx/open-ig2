@@ -7,6 +7,7 @@ import java.awt.Transparency;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -14,6 +15,7 @@ import java.util.GregorianCalendar;
 import org.apache.log4j.Logger;
 
 import com.golden.gamedev.GameEngine;
+import com.golden.gamedev.object.AnimatedSprite;
 import com.golden.gamedev.object.Background;
 import com.golden.gamedev.object.GameFont;
 import com.golden.gamedev.object.PlayField;
@@ -51,7 +53,7 @@ public class StarMapView extends OpenIgGameObject {
 		// Variable du jeu
 		money = 0;
 		calendar.setTime(new Date());
-		//setMaskColor(Color.BLACK);
+		setMaskColor(Color.BLACK);
 		
 		// Affichage du background
 		BufferedImage backgroundImage = super.getImage("graphics/starmap.png", false);
@@ -60,7 +62,7 @@ public class StarMapView extends OpenIgGameObject {
 		
 		// Affichage des planètes
 		SpriteGroup planets = playfield.addGroup(new SpriteGroup("planets"));
-		planets.add(new Planet(super.getImageWithTransparency("graphics/sprites/planets/n1.png", Transparency.TRANSLUCENT, 10), 90, 90));
+		planets.add(new Planet("Andor", super.getImageWithTransparency("graphics/sprites/planets/n1.png", Transparency.TRANSLUCENT, 10), 90, 90, 50));
 		
 		// Affichage de la minimap
 		/*SpriteGroup miniMap = playfield.addGroup(new SpriteGroup("miniMap"));
@@ -75,25 +77,23 @@ public class StarMapView extends OpenIgGameObject {
 		        "qrstuvwxyz?![]'\"+-:;.,1234567890%& /ß ÄÖÜä" +
 		 		"öüßêéèàEÃçÇôûùòìàóñÑµ¿úííóõôôüüÜ#@*<>_$");
 		
+		// Vaisseaux
+		SpriteGroup spaceShips = playfield.addGroup(new SpriteGroup("spacehips"));
+		BufferedImage image = getImage("graphics/sprites/spaceship/spaceship.png", true).getSubimage(0, 0, 30, 1056);
+		AnimatedSprite spaceShip = getAnimatedSprite(ImageUtil.splitImages(image, 1, 48), 20, 20);
+		spaceShip.setAnimate(true);
+		spaceShip.setLoopAnim(true);
+		spaceShips.add(spaceShip);
+		
 		// Musique de fond
-		bsMusic.play("music/MS_Ambient 01.mp2");
-		bsMusic.setLoop(false);
+		for(int i=1 ; i <= 14 ; i++)
+			bsMusic.addMusic("music/ambient/MS_Ambient " + new DecimalFormat("00").format(i) + ".mp2");
+		bsMusic.play();
 	}
 	
 	@Override
 	public void render(Graphics2D g2d) {
 		playfield.render(g2d);
-		
-		// Affichage de la barre principale
-		getSprite(getSubImage(super.getImage("graphics/sprites/starmap/main-bar.png", false), 77, 20, 79, 18), 0, 0).render(g2d);
-		getSprite(getSubImage(super.getImage("graphics/sprites/starmap/main-bar.png", false), 1, 1, 524, 18), 74, 0).render(g2d);
-		getSprite(getSubImage(super.getImage("graphics/sprites/starmap/main-bar.png", false), 0, 40, 42, 18), 600, 0).render(g2d);
-		
-		// Affichage de l'argent
-		font10.drawString(g2d, "$" + money, 94, 6);
-		
-		// Affichage de la date
-		font10.drawString(g2d, calendar.get(Calendar.DAY_OF_MONTH) + " / " + calendar.get(Calendar.MONTH) + " / " + calendar.get(Calendar.YEAR), BitmapFont.CENTER, 170, 6, 90);
 		
 		// Affichage des planètes
 		for(int i=0 ; i < playfield.getGroup("planets").getSize() ; i ++) {
@@ -102,13 +102,38 @@ public class StarMapView extends OpenIgGameObject {
 				
 				// Dessin de la selection
 				g2d.setColor(Color.YELLOW);
-				g2d.drawRect((int)planet.getX() + (planet.getWidth() / 3), (int)planet.getY() + (planet.getHeight() / 3), planet.getWidth() / 3, planet.getHeight() / 3);
+				g2d.drawRect((int)planet.getScreenX() + (planet.getWidth() / 3), (int)planet.getScreenY() + (planet.getHeight() / 3), planet.getWidth() / 3, planet.getHeight() / 3);
 				
 				// Affichage des données de la planètes
-				g2d.setColor(Color.BLUE);
-				//g2d.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
+				g2d.setColor(new Color(0, 150, 255, 120));
+				g2d.fillRoundRect(getWidth() - 200, getHeight() - 80, 190, 70, 10, 10);
+				font10.drawString(g2d, planet.getName(), getWidth() - 190, getHeight() - 70);
+				font10.drawString(g2d, "Taille : " + planet.getSize(), getWidth() - 190, getHeight() - 60);
+				font10.drawString(g2d, "Population : " + planet.getPopulation(), getWidth() - 190, getHeight() - 50);
+				
+				if(planet.isActioned()) {
+					getSprite(getImage("graphics/sprites/generics/planet/star-ico.png", true).getSubimage(49 * 7, 0, 49, 49), 
+							(int)planet.getScreenX() + (planet.getWidth() / 3) - 3, 
+							(int)planet.getScreenY() - 10
+							).render(g2d);
+					getSprite(getImage("graphics/sprites/generics/planet/star-ico.png", true).getSubimage(49 * 8, 0, 49, 49), 
+							(int)planet.getScreenX() + (planet.getWidth() / 3) + (planet.getWidth() / 3) + 3, 
+							(int)planet.getScreenY() + (planet.getHeight() / 3) - 3
+							).render(g2d);
+				}
 			}
 		}
+		
+		// Affichage de la barre principale
+		getSprite(getImage("graphics/sprites/starmap/main-bar.png", false).getSubimage(77, 20, 79, 18), 0, 0).render(g2d);
+		getSprite(getImage("graphics/sprites/starmap/main-bar.png", false).getSubimage(1, 1, 524, 18), 74, 0).render(g2d);
+		getSprite(getImage("graphics/sprites/starmap/main-bar.png", false).getSubimage(0, 40, 42, 18), 600, 0).render(g2d);
+		
+		// Affichage de l'argent
+		font10.drawString(g2d, "$" + money, 94, 6);
+		
+		// Affichage de la date
+		font10.drawString(g2d, calendar.get(Calendar.DAY_OF_MONTH) + " / " + calendar.get(Calendar.MONTH) + " / " + calendar.get(Calendar.YEAR), BitmapFont.CENTER, 170, 6, 90);
 		
 		// Affichage mode debug
 		if(isDebugMode()) {
@@ -137,7 +162,7 @@ public class StarMapView extends OpenIgGameObject {
 		if(keyDown(KeyEvent.VK_UP)) {
 			starMapMove.setLocation(0, -3);
 		}
-		// Souris
+		// Souris (click gauche)
 		if(click()) {
 			if(logger.isDebugEnabled())
 				logger.debug("Clique gauche @ x = " + getMouseX() + " and y = " + getMouseY());
@@ -150,6 +175,19 @@ public class StarMapView extends OpenIgGameObject {
 					planet.setSelected(false);
 			}
 		}
+		// Souris (click droit)
+		if(rightClick()) {
+			if(logger.isDebugEnabled())
+				logger.debug("Clique droit @ x = " + getMouseX() + " and y = " + getMouseY());
+			for(int i=0 ; i < playfield.getGroup("planets").getSize() ; i ++) {
+				
+				Planet planet = (Planet) playfield.getGroup("planets").getSprites()[i];
+				if(checkPosMouse(planet, true) && planet.isSelected())
+					planet.setActioned(true);
+				else
+					planet.setActioned(false);
+			}
+		}
 		
 		
 		// Gestion de l'argent
@@ -160,9 +198,6 @@ public class StarMapView extends OpenIgGameObject {
 		
 		// Gestion de la carte
 		playfield.getBackground().setLocation(playfield.getBackground().getX() + starMapMove.getX(), playfield.getBackground().getY() + starMapMove.getY());
-		
-		// Gestion de la musique
-		System.out.println(bsMusic.);
 	}
 
 }
