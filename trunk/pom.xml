@@ -39,11 +39,6 @@
 		</dependency>
 		
 		<!-- Moteur 2D -->
-		<!-- <dependency>
-			<groupId>com.golden.gamedev</groupId>
-			<artifactId>gtge</artifactId>
-			<version>0.2.3</version>
-		</dependency> -->
 		<dependency>
 			<groupId>com.golden.gamedev</groupId>
 			<artifactId>gtge-addon</artifactId>
@@ -55,6 +50,13 @@
 			<groupId>javazoom</groupId>
 			<artifactId>jlayer</artifactId>
 			<version>1.0.1</version>
+		</dependency>
+		
+		<!-- Parser XML -->
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>1.8.1</version>
 		</dependency>
 		
 	</dependencies>

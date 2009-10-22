@@ -65,7 +65,7 @@ public abstract class OpenIgGameObject extends GameObject {
 	     return img;
 	}
 	
-	public Sprite getSprite(BufferedImage image, int x, int y) {
+	public Sprite getSprite(BufferedImage image, double x, double y) {
 		return new Sprite(image, x, y);
 	}
 	

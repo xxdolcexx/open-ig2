@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<open-ig2>
+
+	<universe>
+		
+		<planet name="Terre" type="5" population="500000">
+			<coordonate x="30" y="30"/>		
+		</planet>
+	
+	</universe>
+
+</open-ig2>

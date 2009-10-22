@@ -11,6 +11,7 @@ import com.golden.gamedev.GameObject;
 import com.golden.gamedev.OpenGLGameLoader;
 import com.golden.gamedev.engine.audio.JavaLayerMp3Renderer;
 
+import fr.openig.engine.UniverseEngine;
 import fr.openig.views.StarMapView;
 
 public class OpenIg extends GameEngine {
@@ -21,11 +22,15 @@ public class OpenIg extends GameEngine {
 	/** Id des différents screens */
 	private static final int STARMAP = 0;
 	
+	
 	@Override
 	protected void initEngine() {
 		super.initEngine();
 
 		bsMusic.setBaseRenderer(new JavaLayerMp3Renderer());
+		
+		// Récupération des données statiques
+		UniverseEngine.getInstance();
 	}
 
 	@Override
