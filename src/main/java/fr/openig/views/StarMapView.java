@@ -52,7 +52,7 @@ public class StarMapView extends OpenIgGameObject {
 		
 		// Affichage des planètes
 		SpriteGroup planets = playfield.addGroup(new SpriteGroup("planets"));
-		planets.add(new Planet("Andor", super.getImageWithTransparency("graphics/sprites/planets/n1.png", Transparency.TRANSLUCENT, 10), 90, 90, 50));
+		planets.add(new Planet(super.getImageWithTransparency("graphics/sprites/planets/n1.png", Transparency.TRANSLUCENT, 10), 90, 90));
 		
 		// Affichage de la minimap
 		/*SpriteGroup miniMap = playfield.addGroup(new SpriteGroup("miniMap"));
@@ -93,6 +93,7 @@ public class StarMapView extends OpenIgGameObject {
 				font10.drawString(g2d, planet.getName(), getWidth() - 190, getHeight() - 70);
 				font10.drawString(g2d, "Taille : " + planet.getSize(), getWidth() - 190, getHeight() - 60);
 				font10.drawString(g2d, "Population : " + planet.getPopulation(), getWidth() - 190, getHeight() - 50);
+				font10.drawString(g2d, "Impôt : " + planet.getImpot(), getWidth() - 190, getHeight() - 40);
 				
 				if(planet.isActioned()) {
 					getSprite(getImage("graphics/sprites/generics/planet/star-ico.png", true).getSubimage(49 * 7, 0, 49, 49), 
@@ -145,8 +146,10 @@ public class StarMapView extends OpenIgGameObject {
 				Planet planet = (Planet) playfield.getGroup("planets").getSprites()[i];
 				if(checkPosMouse(planet, true))
 					planet.setSelected(true);
-				else
+				else {
 					planet.setSelected(false);
+					planet.setActioned(false);
+				}
 			}
 		}
 		// Souris (click droit)

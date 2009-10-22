@@ -9,6 +9,7 @@ import com.golden.gamedev.object.PlayField;
 import com.golden.gamedev.object.SpriteGroup;
 import com.golden.gamedev.object.font.BitmapFont;
 
+import fr.openig.engine.OpenIgMoney;
 import fr.openig.engine.OpenIgTimer;
 
 public class ControlBarGameObject extends OpenIgGameObject {
@@ -22,9 +23,6 @@ public class ControlBarGameObject extends OpenIgGameObject {
 	// Status de la barre de controle
 	// Par défaut, en lecture
 	private int status = PLAY;
-	
-	// Argent
-	private long money;
 	
 	// Timer du jeu
 	private OpenIgTimer openIgTimer;
@@ -41,8 +39,6 @@ public class ControlBarGameObject extends OpenIgGameObject {
 	@Override
 	public void initResources() {
 		// Variable du jeu
-		// Argent
-		money = 0;
 		// Timer
 		openIgTimer = OpenIgTimer.getInstance(new Date());
 		openIgTimer.start();
@@ -76,7 +72,7 @@ public class ControlBarGameObject extends OpenIgGameObject {
 		}
 		
 		// Affichage de l'argent
-		font10.drawString(g2d, "$" + money, 94, 6);
+		font10.drawString(g2d, "$" + OpenIgMoney.getInstance().getMoney(), 94, 6);
 		
 		// Affichage de la date
 		font10.drawString(g2d, new DecimalFormat("00").format(openIgTimer.getDayOfMonth()) + " / " + new DecimalFormat("00").format(openIgTimer.getMonth()) + " / " + new DecimalFormat("0000").format(openIgTimer.getYear()), BitmapFont.CENTER, 170, 6, 90);
@@ -114,7 +110,7 @@ public class ControlBarGameObject extends OpenIgGameObject {
 		if(status == PAUSE)
 			return;
 		
-		money++;
+		
 	}
 
 }
