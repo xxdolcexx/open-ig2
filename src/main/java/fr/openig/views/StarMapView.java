@@ -15,10 +15,12 @@ import com.golden.gamedev.GameEngine;
 import com.golden.gamedev.object.AnimatedSprite;
 import com.golden.gamedev.object.Background;
 import com.golden.gamedev.object.PlayField;
+import com.golden.gamedev.object.Sprite;
 import com.golden.gamedev.object.SpriteGroup;
 import com.golden.gamedev.util.ImageUtil;
 
-import fr.openig.object.Planet;
+import fr.openig.engine.UniverseEngine;
+import fr.openig.model.Planet;
 import fr.openig.object.background.SpacemapBackground;
 import fr.openig.object.generic.ControlBarGameObject;
 import fr.openig.object.generic.OpenIgGameObject;
@@ -50,15 +52,19 @@ public class StarMapView extends OpenIgGameObject {
 		Background background = new SpacemapBackground(backgroundImage, bsInput);
 		playfield = new PlayField(background);
 		
-		// Affichage des planètes
-		SpriteGroup planets = playfield.addGroup(new SpriteGroup("planets"));
-		planets.add(new Planet(super.getImageWithTransparency("graphics/sprites/planets/n1.png", Transparency.TRANSLUCENT, 10), 90, 90));
-		
 		// Affichage de la minimap
 		/*SpriteGroup miniMap = playfield.addGroup(new SpriteGroup("miniMap"));
 		BufferedImage miniMapImage = getImage("graphics/sprites/starmap/mini-map.png");
 		miniMap.add(new Sprite(miniMapImage, (getWidth() / 2) - (miniMapImage.getWidth() / 2), 
 				getHeight() - miniMapImage.getHeight() - 2));*/
+		
+		// Initialisation des sprites des planètes
+		SpriteGroup planets = playfield.addGroup(new SpriteGroup("planets"));
+		for(Planet planet : UniverseEngine.getInstance().getUniverse().getPlanets()) {
+			Sprite sprite = getSprite(super.getImageWithTransparency("graphics/sprites/planets/n1.png", Transparency.TRANSLUCENT, 10), planet.getX(), planet.getY());
+			planet.setSprite(sprite);
+			planets.add(sprite);
+		}
 		
 		// Vaisseaux
 		SpriteGroup spaceShips = playfield.addGroup(new SpriteGroup("spacehips"));
@@ -79,42 +85,51 @@ public class StarMapView extends OpenIgGameObject {
 		playfield.render(g2d);
 		
 		// Affichage des planètes
-		for(int i=0 ; i < playfield.getGroup("planets").getSize() ; i ++) {
-			Planet planet = (Planet) playfield.getGroup("planets").getSprites()[i];
+		for(Planet planet : UniverseEngine.getInstance().getUniverse().getPlanets()) {
 			if(planet.isSelected()) {
-				
 				// Dessin de la selection
 				g2d.setColor(Color.YELLOW);
-				g2d.drawRect((int)planet.getScreenX() + (planet.getWidth() / 3), (int)planet.getScreenY() + (planet.getHeight() / 3), planet.getWidth() / 3, planet.getHeight() / 3);
+				g2d.drawRect((int)planet.getSprite().getScreenX() + (planet.getSprite().getWidth() / 3), (int)planet.getSprite().getScreenY() + (planet.getSprite().getHeight() / 3), planet.getSprite().getWidth() / 3, planet.getSprite().getHeight() / 3);
 				
 				// Affichage des données de la planètes
 				g2d.setColor(new Color(0, 150, 255, 120));
 				g2d.fillRoundRect(getWidth() - 200, getHeight() - 80, 190, 70, 10, 10);
 				font10.drawString(g2d, planet.getName(), getWidth() - 190, getHeight() - 70);
-				font10.drawString(g2d, "Taille : " + planet.getSize(), getWidth() - 190, getHeight() - 60);
+				/*font10.drawString(g2d, "Taille : " + planet.getSize(), getWidth() - 190, getHeight() - 60);
 				font10.drawString(g2d, "Population : " + planet.getPopulation(), getWidth() - 190, getHeight() - 50);
-				font10.drawString(g2d, "Impôt : " + planet.getImpot(), getWidth() - 190, getHeight() - 40);
+				font10.drawString(g2d, "Impôt : " + planet.getImpot(), getWidth() - 190, getHeight() - 40);*/
 				
 				if(planet.isActioned()) {
 					getSprite(getImage("graphics/sprites/generics/planet/star-ico.png", true).getSubimage(49 * 7, 0, 49, 49), 
-							(int)planet.getScreenX() + (planet.getWidth() / 3) - 3, 
-							(int)planet.getScreenY() - 10
+							(int)planet.getSprite().getScreenX() + (planet.getSprite().getWidth() / 3) - 3, 
+							(int)planet.getSprite().getScreenY() - 10
 							).render(g2d);
 					getSprite(getImage("graphics/sprites/generics/planet/star-ico.png", true).getSubimage(49 * 8, 0, 49, 49), 
-							(int)planet.getScreenX() + (planet.getWidth() / 3) + (planet.getWidth() / 3) + 3, 
-							(int)planet.getScreenY() + (planet.getHeight() / 3) - 3
+							(int)planet.getSprite().getScreenX() + (planet.getSprite().getWidth() / 3) + (planet.getSprite().getWidth() / 3) + 3, 
+							(int)planet.getSprite().getScreenY() + (planet.getSprite().getHeight() / 3) - 3
 							).render(g2d);
 				}
 			}
+			
 		}
 		
 		controlBar.render(g2d);
 		
 		// Affichage mode debug
 		if(isDebugMode()) {
-			font10.drawString(g2d, "Mouse x:" + getMouseX() + " & y:" + getMouseY(), 5, getHeight() - 50);
-			font10.drawString(g2d, "Background x:" + playfield.getBackground().getX() + " & y:" + playfield.getBackground().getY(), 5, getHeight() - 40);
+			font10.drawString(g2d, "Mouse x: " + getMouseX() + " & y: " + getMouseY(), 5, getHeight() - 50);
+			font10.drawString(g2d, "Background x: " + playfield.getBackground().getX() + " & y: " + playfield.getBackground().getY(), 5, getHeight() - 40);
+			
+			Runtime runtime = Runtime.getRuntime();
+			long maxMemory = runtime.maxMemory();
+			long allocatedMemory = runtime.totalMemory();
+			long freeMemory = runtime.freeMemory();
+			font10.drawString(g2d, "Max memory : " + maxMemory / 1024 , 5, getHeight() - 30);
+			font10.drawString(g2d, "Allocated memory : " + allocatedMemory / 1024 , 5, getHeight() - 20);
+			font10.drawString(g2d, "Free memory : " + freeMemory / 1024 , 5, getHeight() - 10);
+			font10.drawString(g2d, "Total memory : " + (freeMemory + (maxMemory - allocatedMemory)) / 1024 , 5, getHeight() - 10);
 		}
+		
 	}
 
 	@Override
@@ -142,9 +157,8 @@ public class StarMapView extends OpenIgGameObject {
 			if(logger.isDebugEnabled())
 				logger.debug("Clique gauche @ x = " + getMouseX() + " and y = " + getMouseY());
 			
-			for(int i=0 ; i < playfield.getGroup("planets").getSize() ; i ++) {
-				Planet planet = (Planet) playfield.getGroup("planets").getSprites()[i];
-				if(checkPosMouse(planet, true))
+			for(Planet planet : UniverseEngine.getInstance().getUniverse().getPlanets()) {
+				if(checkPosMouse(planet.getSprite(), true))
 					planet.setSelected(true);
 				else {
 					planet.setSelected(false);
@@ -156,10 +170,9 @@ public class StarMapView extends OpenIgGameObject {
 		if(rightClick()) {
 			if(logger.isDebugEnabled())
 				logger.debug("Clique droit @ x = " + getMouseX() + " and y = " + getMouseY());
-			for(int i=0 ; i < playfield.getGroup("planets").getSize() ; i ++) {
-				
-				Planet planet = (Planet) playfield.getGroup("planets").getSprites()[i];
-				if(checkPosMouse(planet, true) && planet.isSelected())
+			
+			for(Planet planet : UniverseEngine.getInstance().getUniverse().getPlanets()) {
+				if(checkPosMouse(planet.getSprite(), true) && planet.isSelected())
 					planet.setActioned(true);
 				else
 					planet.setActioned(false);
