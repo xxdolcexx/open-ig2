@@ -4,7 +4,7 @@
 
 	<universe>
 		
-		<planet name="Terre" type="5" population="500000">
+		<planet name="Terre" type="5" population="500000" impot="250" satisfaction="0.27">
 			<coordonate x="30" y="30"/>		
 		</planet>
 	

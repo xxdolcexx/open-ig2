@@ -23,6 +23,8 @@ public class OpenIgXmlParser {
 		digester.addObjectCreate("open-ig2/universe/planet", Planet.class);
 		digester.addSetProperties("open-ig2/universe/planet", "name", "name");
 		digester.addSetProperties("open-ig2/universe/planet", "type", "type");
+		digester.addSetProperties("open-ig2/universe/planet", "impot", "impot");
+		digester.addSetProperties("open-ig2/universe/planet", "satisfaction", "satisfaction");
 		digester.addSetProperties("open-ig2/universe/planet", "population", "population");
 		digester.addSetProperties("open-ig2/universe/planet/coordonate", "x", "x");
 		digester.addSetProperties("open-ig2/universe/planet/coordonate", "y", "y");

@@ -13,15 +13,14 @@ import org.apache.log4j.Logger;
 
 import com.golden.gamedev.GameEngine;
 import com.golden.gamedev.object.AnimatedSprite;
-import com.golden.gamedev.object.Background;
 import com.golden.gamedev.object.PlayField;
 import com.golden.gamedev.object.Sprite;
 import com.golden.gamedev.object.SpriteGroup;
+import com.golden.gamedev.object.background.ImageBackground;
 import com.golden.gamedev.util.ImageUtil;
 
 import fr.openig.engine.UniverseEngine;
 import fr.openig.model.Planet;
-import fr.openig.object.background.SpacemapBackground;
 import fr.openig.object.generic.ControlBarGameObject;
 import fr.openig.object.generic.OpenIgGameObject;
 
@@ -49,7 +48,7 @@ public class StarMapView extends OpenIgGameObject {
 		
 		// Affichage du background
 		BufferedImage backgroundImage = super.getImage("graphics/starmap.png", false);
-		Background background = new SpacemapBackground(backgroundImage, bsInput);
+		ImageBackground background = new ImageBackground(backgroundImage);
 		playfield = new PlayField(background);
 		
 		// Affichage de la minimap

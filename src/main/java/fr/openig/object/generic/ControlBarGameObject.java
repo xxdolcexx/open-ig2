@@ -72,7 +72,7 @@ public class ControlBarGameObject extends OpenIgGameObject {
 		}
 		
 		// Affichage de l'argent
-		font10.drawString(g2d, "$" + OpenIgMoney.getInstance().getMoney(), 94, 6);
+		font10.drawString(g2d, "$" + OpenIgMoney.getInstance().getMoney(), BitmapFont.CENTER, 100, 6, 35);
 		
 		// Affichage de la date
 		font10.drawString(g2d, new DecimalFormat("00").format(openIgTimer.getDayOfMonth()) + " / " + new DecimalFormat("00").format(openIgTimer.getMonth()) + " / " + new DecimalFormat("0000").format(openIgTimer.getYear()), BitmapFont.CENTER, 170, 6, 90);
@@ -101,16 +101,6 @@ public class ControlBarGameObject extends OpenIgGameObject {
 				openIgTimer.setSpeed(FAST_FORWARD);
 			}
 		}
-		
-		// Gestion de l'argent
-		calculateMoney();
 	}
 	
-	private void calculateMoney() {
-		if(status == PAUSE)
-			return;
-		
-		
-	}
-
 }
