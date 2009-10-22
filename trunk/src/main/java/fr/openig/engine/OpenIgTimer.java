@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import fr.openig.model.Planet;
 import fr.openig.object.generic.ControlBarGameObject;
 
 public class OpenIgTimer extends Thread {
@@ -39,7 +40,17 @@ public class OpenIgTimer extends Thread {
 			
 			if(!pause) {
 				calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
+				
+				// Gestion de l'argent
+				calculateMoney();
 			}
+		}
+	}
+	
+	private void calculateMoney() {
+		for(Planet planet : UniverseEngine.getInstance().getUniverse().getPlanets()) {
+			long impot = (long) (planet.getImpot() * (planet.getPopulation() / 4) * planet.getSatisfaction());
+			OpenIgMoney.getInstance().addMoney(impot);
 		}
 	}
 	

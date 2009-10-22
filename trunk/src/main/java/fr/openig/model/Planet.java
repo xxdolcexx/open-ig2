@@ -16,6 +16,12 @@ public class Planet {
 	// Population de la planète
 	private long population;
 	
+	// Satisfaction
+	private float satisfaction;
+	
+	// Impot
+	private long impot;
+	
 	// Sprite de la planète
 	private Sprite sprite;
 	
@@ -24,6 +30,22 @@ public class Planet {
 	
 	// Doit-on afficher les actions de la planètes
 	private boolean actioned;
+
+	public float getSatisfaction() {
+		return satisfaction;
+	}
+
+	public void setSatisfaction(float satisfaction) {
+		this.satisfaction = satisfaction;
+	}
+
+	public long getImpot() {
+		return impot;
+	}
+
+	public void setImpot(long impot) {
+		this.impot = impot;
+	}
 
 	public long getPopulation() {
 		return population;

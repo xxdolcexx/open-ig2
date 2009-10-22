@@ -19,6 +19,8 @@ public class TestOpenIgXmlParser extends TestCase {
 		assertEquals(500000, planet.getPopulation());
 		assertEquals(30d, planet.getX());
 		assertEquals(30d, planet.getY());
+		assertEquals(0.27f, planet.getSatisfaction());
+		assertEquals(250l, planet.getImpot());
 	}
 	
 }
