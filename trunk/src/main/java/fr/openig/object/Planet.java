@@ -18,15 +18,20 @@ public class Planet extends Sprite {
 
 	// Population de la planète
 	private int population;
+	
+	// Impot de la planète
+	private int impot;
 
 	// Doit-on afficher les actions
 	private boolean actioned;
 	
-	public Planet(String name, BufferedImage bufferedImage, int x, int y, int size) {
+	public Planet(BufferedImage bufferedImage, int x, int y) {
 		super(bufferedImage, x, y);
 		
-		this.size = size;
-		this.name = name;
+		size = 500;
+		population = 15000;
+		impot = 200;
+		name = "Andor";
 	}
 
 	public int getSize() {
@@ -67,6 +72,14 @@ public class Planet extends Sprite {
 	
 	public boolean isActioned() {
 		return actioned;
+	}
+	
+	public int getImpot() {
+		return impot;
+	}
+	
+	public void setImpot(int impot) {
+		this.impot = impot;
 	}
 	
 }
