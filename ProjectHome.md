@@ -1,0 +1,1 @@
+Open Imperium Galactica 2 is an open source JavaTM clone of the Digital Reality game Imperium Galactica, a popular real time space strategy game developed around 1999 in Hungary. Open Imperium Galactica 2 attempts to mimic the original game as closely as possible while extending it with new features.
